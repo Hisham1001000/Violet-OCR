@@ -1,0 +1,93 @@
+# Secrets and credentials
+.env
+credentials.json
+token.json
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!execution/webhooks.json
+# Deployment config, not a secret. It was caught by the blanket *.json rule
+# above, which meant Vercel never received the cron declaration and the
+# stuck-job watchdog never ran. Tracked deliberately.
+!frontend/vercel.json
+
+# ── Derived from real customer documents — never published ───────────────────
+# The name and place lexicons, and the frozen evaluation set, are built from
+# documents real people submitted: family names from Gaza, and 400 verified
+# full names. They stay on disk (Modal ships the working tree, not git, so the
+# pipeline is unaffected) and out of the repository.
+#
+# Backed up at: C:\Users\hp\Downloads\violet-private-data
+# Rebuild from Supabase with:
+#   python execution/build_name_vocab.py
+#   python execution/build_place_lexicon.py
+# See execution/data/README.md and execution/testset/README.md.
+# Note the /* rather than a bare /: git cannot re-include a file whose parent
+# DIRECTORY is excluded, so ignoring the CONTENTS is what lets the two README
+# exceptions below actually apply.
+execution/data/*
+execution/testset/*
+!execution/data/README.md
+!execution/testset/README.md
+
+# Local-only scripts: Colab notebooks-as-scripts (one embeds production crop
+# ids), a diagnostic harness pinned to local .tmp paths, a test-sheet generator
+# holding realistic ID and phone numbers, and a pipeline test that needs paid
+# API keys plus a gitignored artifact.
+execution/colab_*.py
+execution/make_test_sheet.py
+debug_run.py
+test_pipeline.py
+
+# Third-party skill packs (ui-ux-pro-max, marketing skills, and others). They
+# carry their own licences and are not ours to redistribute.
+.claude/
+
+# Build cache
+frontend/tsconfig.tsbuildinfo
+*.tsbuildinfo
+
+# Source images for the landing page examples; the copies the site serves live
+# in frontend/public/landing/.
+/Before.jpg
+/After.jpg
+
+# Intermediate / temp files (always regeneratable)
+.tmp/*
+!.tmp/.gitkeep
+
+# Test artifacts at repo root (one-off PDFs / OCR output text dumps).
+# Keep them local but never commit — root-level only, doesn't affect frontend
+# or execution paths.
+/*.pdf
+/*.txt
+# ...but the dependency manifests are not test artifacts. requirements.txt
+# predates the rule and was already tracked, so it slipped through; a new
+# one would not. This is the same trap that kept frontend/vercel.json out
+# of the repo and the cron job out of production for months.
+!requirements.txt
+!requirements-test.txt
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# Modal
+.modal/
+
+# Next.js frontend
+frontend/.next/
+frontend/node_modules/
+frontend/.env.local
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Global font */
+body {
+  font-family: "Inter", "Cairo", system-ui, sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Arabic / RTL — use Cairo for better Arabic rendering */
+[lang="ar"],
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+  font-family: "Cairo", "Inter", system-ui, sans-serif;
+}
+
+/* Editorial ambient shadow (violet-tinted) */
+.editorial-shadow {
+  box-shadow: 0px 4px 20px rgba(74, 20, 140, 0.04);
+}
+
+/* Hide scrollbar */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Snappy buttons */
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Logo ambient glow — soft diffused light, no visible edges.
+   Color stops fade fully transparent before the element edge, so the
+   rendered blob is smaller than the 56 px box; blur then extends it
+   into a soft halo. No borders, no square artifact. */
+.logo-glow {
+  position: absolute;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(168, 85, 247, 0.40) 0%,
+    rgba(168, 85, 247, 0.18) 35%,
+    rgba(168, 85, 247, 0.05) 60%,
+    rgba(168, 85, 247, 0) 100%
+  );
+  filter: blur(9px);
+  animation: logoPulse 4.5s ease-in-out infinite;
+  pointer-events: none;
+  will-change: opacity, transform, filter;
+}
+@keyframes logoPulse {
+  0%, 100% { filter: blur(9px); }
+  50%      { filter: blur(13px); }
+}
+
+/* Gem spin animation */
+@keyframes gem-spin {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+.gem-spin {
+  animation: gem-spin 6s linear infinite;
+  transform-style: preserve-3d;
+}
+
+/* Page transition — each page component is a fresh mount in App Router,
+   so this animation naturally plays on every navigation without forcing
+   destructive remounts (which key={pathname} was causing). */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+main > * {
+  animation: page-in 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Dropdown slide-in (used for account + notifications panels) */
+@keyframes dropdown-in {
+  from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+.dropdown-in {
+  animation: dropdown-in 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Auth page — right panel slides in from the right on first load */
+@keyframes auth-panel-in {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+
+/* Auth form — directional slide when switching tabs.
+   fwd = signin→signup→forgot  (new content enters from the right)
+   bwd = forgot→signup→signin  (new content enters from the left)  */
+@keyframes form-slide-fwd {
+  from { opacity: 0; transform: translateX(22px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+@keyframes form-slide-bwd {
+  from { opacity: 0; transform: translateX(-22px); }
+  to   { opacity: 1; transform: translateX(0);     }
+}

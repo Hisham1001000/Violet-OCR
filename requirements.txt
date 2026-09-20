@@ -1,0 +1,33 @@
+anthropic>=0.25.0
+httpx>=0.27.0
+modal>=0.62.0
+sendgrid>=6.11.0
+google-api-python-client>=2.100.0
+google-auth-httplib2>=0.1.1
+google-auth-oauthlib>=1.0.0
+python-dotenv>=1.0.0
+
+# Phase 1 OCR + Export dependencies
+google-cloud-vision>=3.7.0
+supabase>=2.3.0
+Pillow>=10.0.0
+pdf2image>=1.16.0
+xlsxwriter>=3.1.0
+
+# Phase 2 Gemini structuring
+google-genai>=1.0.0
+
+# Phase 2 Name correction suggestions
+rapidfuzz>=3.6.0
+
+# Phase 3 Hybrid OCR (Azure Document Intelligence)
+azure-ai-documentintelligence>=1.0.0
+
+# Phase 4 TrOCR experimental OCR provider (optional — large download, slow on CPU)
+# Install ONLY when evaluating TrOCR accuracy:
+#   pip install transformers>=4.35.0 torch>=2.0.0 torchvision>=0.15.0
+# extract_trocr.py catches ImportError gracefully — pipeline will NOT crash without these.
+# Activate with: OCR_PROVIDER=trocr in .env
+# transformers>=4.35.0
+# torch>=2.0.0
+# torchvision>=0.15.0

@@ -1,0 +1,13 @@
+# The minimum needed to run the offline tests in tests/.
+#
+#   pip install -r requirements-test.txt
+#   python tests/test_value_normalization.py    # and the four others
+#
+# Four of the five need nothing but the standard library: the pipeline modules
+# they import keep their heavy dependencies inside function bodies, so importing
+# a module does not drag in Azure, Gemini or Supabase. test_crop_geometry renders
+# a page, which is the one place Pillow is reached at import time.
+#
+# Deliberately not requirements.txt: these tests make no API calls and spend no
+# credits, and CI should not need a key to run them.
+Pillow>=10.0.0

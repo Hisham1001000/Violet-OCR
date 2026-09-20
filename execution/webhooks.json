@@ -1,0 +1,10 @@
+{
+  "_comment": "Maps webhook slug -> directive config. Add entries here, then redeploy modal_webhook.py. Each slug becomes a URL: ...directive.modal.run?slug={slug}",
+  "webhooks": {
+    "process-document": {
+      "directive": "process_document.md",
+      "description": "Run Arabic OCR pipeline for a document job (Phase 1: Google Cloud Vision only)",
+      "tools": []
+    }
+  }
+}
