@@ -245,6 +245,16 @@
   .hero-sub{font-size:clamp(14px,1.4vw,15.5px); color:var(--ink); font-weight:400; max-width:34ch; margin-inline:auto}
   .hero-kicker{font-size:13px; color:var(--ink-3); letter-spacing:.01em}
   .hero .cta-row{margin-top:var(--s2)}
+  /* The offer sits under the button, not inside it: the button says what to do,
+     this says what it costs. Same muted weight as the kicker so it reads as a
+     footnote rather than competing with the headline. */
+  .hero-offer{
+    margin-top:var(--s2); font-size:13px; color:var(--ink-2);
+    max-width:38ch; margin-inline:auto; line-height:1.6;
+  }
+  .price-example{
+    margin-top:var(--s2); font-size:13px; color:var(--ink-2); line-height:1.6;
+  }
   .tagpill{
     display:inline-flex; align-items:center; gap:var(--s2);
     border:1px solid var(--line); border-radius:var(--r-pill);
@@ -542,13 +552,14 @@
 
     <h1 class="hero-title">من الكشف إلى <span class="latin">Excel</span></h1>
 
-    <p class="hero-sub">ارفع صورة الكشف واستلمه جدولًا جاهزًا.</p>
+    <p class="hero-sub">ارفع كشفاً بخط اليد واستلمه جدولًا جاهزًا.</p>
     <p class="hero-kicker">لا إدخال، لا نسخ، لا وقت ضائع.</p>
 
     <div class="cta-row">
-      <a class="btn" href="/auth">ابدأ مجاناً</a>
+      <a class="btn" href="/auth?mode=signup">ابدأ مجاناً</a>
       <a class="btn btn--quiet" href="#how">كيف يعمل</a>
     </div>
+    <p class="hero-offer">أول كشف مجاناً بالكامل — مهما كان عدد صفوفه، وبدون بطاقة.</p>
   </div>
 </section>
 
@@ -652,10 +663,12 @@
     <div class="price">
       <div class="price-amount"><b>$0.015</b><span>/ الصف المستخرج</span></div>
 
+      <p class="price-example">كشف من 15 صفاً ≈ 23 سنتاً · بدون اشتراك شهري، تدفع عن ما تستخرجه فقط.</p>
+
       <div class="cta-row" style="justify-content:center; margin-top:var(--s5)">
-        <a class="btn" href="/auth">ابدأ مجاناً</a>
+        <a class="btn" href="/auth?mode=signup">ابدأ مجاناً</a>
       </div>
-      <p class="btn-note" style="margin-top:var(--s3)">أضف رصيداً عبر واتساب أو البريد · الدفع بالبطاقة قريباً</p>
+      <p class="btn-note" style="margin-top:var(--s3)">أول كشف مجاناً بالكامل، مهما كان حجمه · بعدها تضيف رصيداً عبر واتساب أو البريد · الدفع بالبطاقة قريباً</p>
     </div>
   </div>
 </section>
@@ -754,7 +767,7 @@
     <h2>أهلاً بك في Violet</h2>
     <p class="lede">أنشئ حسابك وابدأ برقمنة كشوفاتك.</p>
     <div class="cta-row">
-      <a class="btn" href="/auth">إنشاء حساب</a>
+      <a class="btn" href="/auth?mode=signup">إنشاء حساب</a>
     </div>
     <p class="btn-note">بحساب Google أو بالبريد الإلكتروني</p>
   </div>

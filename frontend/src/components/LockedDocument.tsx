@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLang } from "@/lib/lang-context";
 import { TopUpModal } from "@/components/TopUpModal";
 import { formatUsd } from "@/lib/billing";
@@ -53,6 +53,26 @@ export function LockedDocument({
   const [topUpOpen, setTopUpOpen] = useState(false);
   const [checking, setChecking]   = useState(false);
   const [note, setNote]           = useState<string | null>(null);
+
+  // Settle once when this page opens. A document can be releasable without the
+  // customer paying anything -- the first document on an account is free at any
+  // size (migration 041) -- and in that case the right number of clicks on a
+  // button reading "I've paid" is zero. Silent on purpose: if it does not
+  // release, the page it is already on is the correct thing to show.
+  const autoTried = useRef(false);
+  useEffect(() => {
+    if (autoTried.current) return;
+    autoTried.current = true;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res  = await fetch(`/api/documents/${jobId}/settle`, { method: "POST" });
+        const data = await res.json();
+        if (!cancelled && data.paid) { notifyBalanceChanged(); onUnlocked(); }
+      } catch { /* leave the locked page up */ }
+    })();
+    return () => { cancelled = true; };
+  }, [jobId, onUnlocked]);
 
   async function checkAgain() {
     setChecking(true);

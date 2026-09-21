@@ -178,6 +178,16 @@ export default function AuthPage() {
   const t = (k: keyof typeof C) => C[k][lang];
 
   const [mode, setMode]           = useState<Mode>("signin");
+
+  // Every CTA on the landing page means "create an account", so it links to
+  // /auth?mode=signup. Read after mount rather than in the initial state: this
+  // file has bitten us with a hydration mismatch before, and a brief flash of
+  // the sign-in tab is a far cheaper failure than a hydration error on the one
+  // page every new customer has to get through.
+  useEffect(() => {
+    const m = new URLSearchParams(window.location.search).get("mode");
+    if (m === "signup" || m === "forgot") setMode(m);
+  }, []);
   const [animKey, setAnimKey]     = useState(0);
   const [animDir, setAnimDir]     = useState<"fwd"|"bwd">("fwd");
   const MODE_ORDER: Mode[]        = ["signin","signup","forgot"];
