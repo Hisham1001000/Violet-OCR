@@ -1,5 +1,6 @@
 import { AppShell } from "@/components/AppShell";
 import { SessionGuard } from "@/components/SessionGuard";
+import { GuestClaim } from "@/components/GuestClaim";
 
 // The signed-in shell — sidebar and top bar — for every page in this group.
 //
@@ -19,6 +20,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <SessionGuard />
+      <GuestClaim />
       <AppShell>{children}</AppShell>
     </>
   );

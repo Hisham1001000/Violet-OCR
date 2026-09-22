@@ -484,6 +484,35 @@
     .cmp{padding:var(--s4)}
     .cmp-row{grid-template-columns:92px minmax(0,1fr) 46px; gap:var(--s2)}
   }
+  /* ── try it: upload before signing up ────────────────── */
+  /* The whole hero is a drop target; this card is where the upload lives once
+     a file is chosen: progress while it sends, then the sign-up ask while the
+     sheet is being read, so the wait does the persuading. */
+  .try{
+    width:100%; max-width:440px; margin-inline:auto; margin-top:var(--s2);
+    background:#fff; border:1px solid var(--line); border-radius:var(--r-lg);
+    box-shadow:var(--shadow); padding:var(--s5); text-align:center;
+  }
+  #try-box [hidden]{display:none !important}
+  .try-head{display:flex; align-items:center; justify-content:center; gap:var(--s2); font-weight:500; font-size:14.5px}
+  .try-name{font-size:12.5px; color:var(--ink-3); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin-top:var(--s1)}
+  .try-bar{height:6px; border-radius:var(--r-pill); background:var(--line-2); overflow:hidden; margin-top:var(--s4)}
+  .try-bar span{display:block; height:100%; width:0; background:var(--violet); border-radius:inherit; transition:width .3s ease}
+  .try-bar.is-busy span{width:40%; animation:try-slide 1.4s ease-in-out infinite}
+  @keyframes try-slide{0%{margin-inline-start:-40%} 100%{margin-inline-start:100%}}
+  .try-ask{margin-top:var(--s4); font-size:14px; color:var(--ink); line-height:1.7}
+  .try .cta-row{justify-content:center; margin-top:var(--s4); flex-wrap:wrap}
+  .try-note{margin-top:var(--s3); font-size:12px; color:var(--ink-3); line-height:1.6}
+  .try-done{color:var(--good)}
+  .try-err{color:#B42318}
+  .spin{width:16px; height:16px; border-radius:50%; border:2px solid var(--violet-wash); border-top-color:var(--violet); animation:spin .8s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  #try-box.is-drag .wrap{outline:2px dashed var(--violet); outline-offset:var(--s4); border-radius:var(--r-lg)}
+  @media (prefers-reduced-motion:reduce){
+    .spin{animation-duration:2.4s}
+    .try-bar.is-busy span{animation-duration:3s}
+  }
+
   .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0}
 
   /* ── footer ──────────────────────────────────────────── */
@@ -556,7 +585,7 @@
     <p class="hero-kicker">لا إدخال، لا نسخ، لا وقت ضائع.</p>
 
     <div class="cta-row">
-      <a class="btn" href="/auth?mode=signup">ابدأ مجاناً</a>
+      <a class="btn" href="#try-box">ارفع كشفك الآن</a>
       <a class="btn btn--quiet" href="#how">كيف يعمل</a>
     </div>
     <p class="hero-offer">أول كشف مجاناً بالكامل — مهما كان عدد صفوفه.</p>
@@ -666,9 +695,35 @@
       <p class="price-example">كشف من 15 صفاً ≈ 23 سنتاً · بدون اشتراك شهري، تدفع عن ما تستخرجه فقط.</p>
 
       <div class="cta-row" style="justify-content:center; margin-top:var(--s5)">
-        <a class="btn" href="/auth?mode=signup">ابدأ مجاناً</a>
+        <a class="btn" href="#try-box">ابدأ مجاناً</a>
       </div>
       <p class="btn-note" style="margin-top:var(--s3)">أول كشف مجاناً بالكامل، مهما كان حجمه · بعدها تضيف رصيداً عبر واتساب أو البريد · الدفع بالبطاقة قريباً</p>
+    </div>
+  </div>
+</section>
+
+<!-- The upload sits directly under the price on purpose: the visitor has just
+     read what a row costs and that the first sheet is free, so the offer is
+     settled the moment they choose a file. The FAQ follows for whoever still
+     has a question. -->
+<section class="rule" id="try-box">
+  <div class="wrap center stack gap-4">
+    <h2>جرّب كشفك الآن</h2>
+    <p class="lede">ارفع الكشف وسنقرأه فوراً — بدون حساب وبدون بطاقة. أنشئ حسابك أثناء القراءة لتستلم الجدول.</p>
+
+    <div class="cta-row" id="try-start">
+      <button type="button" class="btn" id="try-pick">ارفع الملف</button>
+    </div>
+    <input type="file" id="try-file" class="sr-only" accept=".pdf,.jpg,.jpeg,.png,.webp,image/*,application/pdf" tabindex="-1" aria-hidden="true">
+    <p class="btn-note" id="try-offer">صورة أو PDF · أول كشف مجاني بالكامل، مهما كان عدد صفوفه</p>
+
+    <div class="try" id="try" hidden aria-live="polite">
+      <div class="try-head" id="try-head"></div>
+      <div class="try-name" id="try-name"></div>
+      <div class="try-bar" id="try-bar"><span></span></div>
+      <p class="try-ask" id="try-ask"></p>
+      <div class="cta-row" id="try-actions"></div>
+      <p class="try-note" id="try-note"></p>
     </div>
   </div>
 </section>
@@ -762,14 +817,15 @@
   </div>
 </section>
 
+
 <section class="rule">
   <div class="wrap center stack gap-4">
     <h2>أهلاً بك في Violet</h2>
-    <p class="lede">أنشئ حسابك وابدأ برقمنة كشوفاتك.</p>
+    <p class="lede">أول كشف مجاني بالكامل — ابدأ برقمنة كشوفاتك الآن.</p>
     <div class="cta-row">
-      <a class="btn" href="/auth?mode=signup">إنشاء حساب</a>
+      <a class="btn" href="#try-box">ارفع كشفك الآن</a>
+      <a class="btn btn--quiet" href="/auth?mode=signup">إنشاء حساب</a>
     </div>
-    <p class="btn-note">بحساب Google أو بالبريد الإلكتروني</p>
   </div>
 </section>
 
@@ -910,6 +966,171 @@
   ['wheel', 'touchstart'].forEach(function(t){
     window.addEventListener(t, function(){ if (running){ cancelAnimationFrame(running); running = null; } }, { passive: true });
   });
+})();
+</script>
+<script>
+/* Try it: upload from the landing page, sign up while it is read (migration 042).
+   The server returns a claim token; it lives in localStorage under
+   violet_guest_job, and the signed-in app (GuestClaim.tsx) uses it to move the
+   finished document into the new account. Nothing here ever sees the rows. */
+(function(){
+  var KEY = 'violet_guest_job';
+  var MAX_MB = 20;
+  var box = document.getElementById('try-box');
+  var pick = document.getElementById('try-pick');
+  var input = document.getElementById('try-file');
+  var card = document.getElementById('try');
+  var head = document.getElementById('try-head');
+  var nameEl = document.getElementById('try-name');
+  var bar = document.getElementById('try-bar');
+  var ask = document.getElementById('try-ask');
+  var actions = document.getElementById('try-actions');
+  var note = document.getElementById('try-note');
+  var start = document.getElementById('try-start');
+  var offer = document.getElementById('try-offer');
+  if (!pick || !input || !card) return;
+
+  var pollTimer = null, busy = false;
+
+  function load(){ try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch(e){ return null; } }
+  function save(v){ try { localStorage.setItem(KEY, JSON.stringify(v)); } catch(e){} }
+  function clear(){ try { localStorage.removeItem(KEY); } catch(e){} }
+
+  function btn(label, href, quiet){
+    var a = document.createElement(href ? 'a' : 'button');
+    a.className = 'btn' + (quiet ? ' btn--quiet' : '');
+    a.textContent = label;
+    if (href) a.href = href; else a.type = 'button';
+    return a;
+  }
+  function signupButtons(primary){
+    actions.textContent = '';
+    actions.appendChild(btn(primary, '/auth?mode=signup'));
+    actions.appendChild(btn('لدي حساب — دخول', '/auth', true));
+  }
+  function show(opts){
+    card.hidden = false;
+    start.hidden = true; offer.hidden = true;
+    head.textContent = '';
+    if (opts.spin){ var s = document.createElement('span'); s.className = 'spin'; s.setAttribute('aria-hidden','true'); head.appendChild(s); }
+    var t = document.createElement('span'); t.textContent = opts.title;
+    if (opts.tone) t.className = opts.tone;
+    head.appendChild(t);
+    nameEl.textContent = opts.name || '';
+    bar.hidden = opts.progress === undefined;
+    bar.classList.toggle('is-busy', opts.progress === 'busy');
+    bar.firstElementChild.style.width = typeof opts.progress === 'number' ? opts.progress + '%' : '';
+    ask.textContent = opts.ask || ''; ask.hidden = !opts.ask;
+    note.textContent = opts.note || ''; note.hidden = !opts.note;
+    actions.textContent = '';
+  }
+  function reset(){
+    clearTimeout(pollTimer); busy = false;
+    card.hidden = true; start.hidden = false; offer.hidden = false;
+    input.value = '';
+  }
+  function tryAgain(){
+    var b = btn('ارفع ملفاً آخر', null, true);
+    b.addEventListener('click', function(){ clear(); reset(); input.click(); });
+    actions.appendChild(b);
+  }
+
+  function rowsText(n){
+    if (n === 1) return 'صف واحد';
+    if (n === 2) return 'صفّان';
+    if (n <= 10) return n + ' صفوف';
+    return n + ' صفاً';
+  }
+
+  var KEEP_NOTE = 'ملفك محفوظ بأمان ولا يظهر لأحد قبل أن تنشئ حسابك.';
+
+  function processing(name){
+    show({ spin:true, title:'نقرأ كشفك الآن…', name:name, progress:'busy',
+           ask:'أنشئ حسابك المجاني بينما ننتهي — ستجد الجدول جاهزاً في حسابك فور دخولك.',
+           note:'تستغرق القراءة عادةً دقيقتين إلى ثلاث. ' + KEEP_NOTE });
+    signupButtons('أنشئ حساباً مجانياً');
+  }
+  function ready(name, rows){
+    show({ title:'✓ كشفك جاهز' + (rows ? ' — ' + rowsText(rows) : ''), tone:'try-done', name:name,
+           ask:'أنشئ حسابك المجاني لترى الجدول وتنزّله إلى Excel. هذا الكشف مجاني بالكامل.',
+           note:KEEP_NOTE });
+    signupButtons('أنشئ حسابك لترى الجدول');
+  }
+  function failed(name, msg){
+    show({ title:msg || 'تعذّرت قراءة هذا الملف', tone:'try-err', name:name,
+           ask:'جرّب صورة أوضح للكشف كاملاً، مصوّرة من الأعلى وفي إضاءة جيدة.' });
+    tryAgain();
+  }
+
+  function poll(){
+    var job = load();
+    if (!job) return;
+    var url = '/api/guest/status?job=' + encodeURIComponent(job.id) + '&token=' + encodeURIComponent(job.token);
+    fetch(url, { cache:'no-store' }).then(function(r){ return r.json().catch(function(){ return {}; }).then(function(d){ return { ok:r.ok, status:r.status, d:d }; }); })
+      .then(function(res){
+        if (res.status === 404 || res.d.state === 'gone'){ clear(); reset(); return; }
+        if (!res.ok){ pollTimer = setTimeout(poll, 10000); return; }
+        if (res.d.state === 'completed'){ ready(job.name, res.d.rows); return; }
+        if (res.d.state === 'failed'){ clear(); failed(job.name); return; }
+        processing(job.name);
+        pollTimer = setTimeout(poll, 5000);
+      })
+      .catch(function(){ pollTimer = setTimeout(poll, 10000); });   // dropped connection: keep waiting
+  }
+
+  function upload(file){
+    if (busy || !file) return;
+    if (file.size > MAX_MB * 1024 * 1024){ failed(file.name, 'الملف أكبر من ' + MAX_MB + ' ميغابايت'); return; }
+    if (!/^(image\/(png|jpe?g|webp)|application\/pdf)$/.test(file.type)){ failed(file.name, 'ارفع صورة (JPG أو PNG) أو ملف PDF'); return; }
+    busy = true;
+    show({ spin:true, title:'جاري رفع الملف…', name:file.name, progress:0 });
+
+    var form = new FormData();
+    form.append('file', file);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/guest/upload');
+    xhr.upload.onprogress = function(e){
+      if (e.lengthComputable) bar.firstElementChild.style.width = Math.round(e.loaded / e.total * 100) + '%';
+    };
+    xhr.onload = function(){
+      busy = false;
+      var d = {}; try { d = JSON.parse(xhr.responseText); } catch(e){}
+      if (xhr.status === 200 && d.job_id && d.token){
+        save({ id:d.job_id, token:d.token, name:file.name, at:Date.now() });
+        if (window.clarity) try { window.clarity('event', 'guest_upload'); } catch(e){}
+        processing(file.name);
+        pollTimer = setTimeout(poll, 5000);
+        return;
+      }
+      if (d.code === 'signup' || d.code === 'rate'){
+        show({ title:d.error || 'أنشئ حساباً مجانياً لرفع كشفك', name:file.name });
+        signupButtons('أنشئ حساباً مجانياً');
+        return;
+      }
+      failed(file.name, d.error || 'تعذّر رفع الملف');
+    };
+    xhr.onerror = function(){ busy = false; failed(file.name, 'انقطع الاتصال أثناء الرفع. حاول مرة أخرى.'); };
+    xhr.send(form);
+  }
+
+  pick.addEventListener('click', function(){ input.click(); });
+  input.addEventListener('change', function(){ upload(input.files && input.files[0]); });
+
+  if (box){
+    box.addEventListener('dragover', function(e){ e.preventDefault(); if (!busy && card.hidden) box.classList.add('is-drag'); });
+    box.addEventListener('dragleave', function(e){ if (!box.contains(e.relatedTarget)) box.classList.remove('is-drag'); });
+    box.addEventListener('drop', function(e){
+      e.preventDefault(); box.classList.remove('is-drag');
+      if (card.hidden && e.dataTransfer && e.dataTransfer.files[0]) upload(e.dataTransfer.files[0]);
+    });
+  }
+
+  // Came back to the page with an upload still waiting: pick it up again.
+  var saved = load();
+  if (saved && saved.id && saved.token){
+    if (Date.now() - (saved.at || 0) > 30 * 24 * 60 * 60 * 1000){ clear(); }
+    else { processing(saved.name); poll(); }
+  }
 })();
 </script>
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1829788774696879');fbq('init','1083983997650429');fbq('track','PageView');</script>

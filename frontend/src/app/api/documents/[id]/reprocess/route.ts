@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { pipelineHeaders } from "@/lib/pipeline";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
@@ -70,8 +71,11 @@ export async function POST(
     return NextResponse.json({ error: "المستند قيد المعالجة بالفعل" }, { status: 400 });
   }
 
-  // Get a signed URL for the stored file
-  const { data: signedData, error: signedErr } = await supabase.storage
+  // Get a signed URL for the stored file. Signed with the service role: a
+  // document uploaded from the landing page (migration 042) keeps its file in
+  // the guest account's folder after it is claimed, which the customer's own
+  // storage policy may not reach. Ownership was checked above.
+  const { data: signedData, error: signedErr } = await createAdminClient().storage
     .from("documents")
     .createSignedUrl(job.document_url, 3600);
 

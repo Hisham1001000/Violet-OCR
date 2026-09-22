@@ -25,9 +25,11 @@ export async function DELETE(
     return NextResponse.json({ error: "المستند غير موجود" }, { status: 404 });
   }
 
-  // Delete file from Supabase Storage (ignore errors — file may already be gone)
+  // Delete file from Supabase Storage (ignore errors — file may already be gone).
+  // Service role, because a landing-page upload (migration 042) keeps its file
+  // in the guest folder after it is claimed. Ownership was checked above.
   if (job.document_url) {
-    await supabase.storage.from("documents").remove([job.document_url]);
+    await createAdminClient().storage.from("documents").remove([job.document_url]).catch(() => {});
   }
 
   // Delete DB row (cascades to document_pages, field_corrections)
