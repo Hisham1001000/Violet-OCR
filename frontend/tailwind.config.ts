@@ -63,9 +63,11 @@ const config: Config = {
         "on-primary-fixed": "#000000",
       },
       fontFamily: {
-        headline: ["Manrope", "sans-serif"],
-        body: ["Inter", "sans-serif"],
-        label: ["Inter", "sans-serif"],
+        // Manrope and Inter carry no Arabic glyphs: Alexandria is the fallback
+        // that actually draws them, so Arabic never lands on a system default.
+        headline: ["Manrope", "Alexandria", "sans-serif"],
+        body: ["Inter", "Alexandria", "sans-serif"],
+        label: ["Inter", "Alexandria", "sans-serif"],
       },
       borderRadius: {
         DEFAULT: "1rem",

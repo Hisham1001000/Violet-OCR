@@ -401,7 +401,7 @@ export default function AuthPage() {
       className="auth-page"
       style={{
         position:"relative", minHeight:"100dvh", overflow:"hidden",
-        background:"#fff", fontFamily:"'Inter','Cairo',sans-serif",
+        background:"#fff", fontFamily:"'Inter','Alexandria',sans-serif",
         display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center",
         padding:"max(12px, env(safe-area-inset-top)) 16px max(12px, env(safe-area-inset-bottom))",
       }}

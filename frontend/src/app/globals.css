@@ -9,17 +9,18 @@
 
 /* Global font */
 body {
-  font-family: "Inter", "Cairo", system-ui, sans-serif;
+  font-family: "Inter", "Alexandria", system-ui, sans-serif;
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Arabic / RTL — use Cairo for better Arabic rendering */
+/* Arabic / RTL — Alexandria, the face the landing page is set in, so the
+   extracted table reads in the same voice the customer arrived in. */
 [lang="ar"],
 [dir="rtl"] {
   direction: rtl;
   text-align: right;
-  font-family: "Cairo", "Inter", system-ui, sans-serif;
+  font-family: "Alexandria", "Inter", system-ui, sans-serif;
 }
 
 /* Editorial ambient shadow (violet-tinted) */

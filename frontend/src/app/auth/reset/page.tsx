@@ -126,7 +126,7 @@ export default function ResetPasswordPage() {
     <div
       dir={isRtl ? "rtl" : "ltr"}
       style={{
-        minHeight:"100vh", display:"flex", fontFamily:"'Inter','Cairo',sans-serif",
+        minHeight:"100vh", display:"flex", fontFamily:"'Inter','Alexandria',sans-serif",
       }}
     >
       {/* Left dark panel */}

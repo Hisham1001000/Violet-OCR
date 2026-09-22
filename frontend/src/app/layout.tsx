@@ -57,7 +57,7 @@ export default function RootLayout({
         )}
 
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Alexandria:wght@300;400;500;600;700&display=swap"
           rel="stylesheet"
         />
         {/* ── Icon font, subset to what we actually draw ────────────────
@@ -83,7 +83,7 @@ export default function RootLayout({
       </head>
       <body
         className="bg-surface text-on-surface antialiased min-h-screen"
-        style={{ fontFamily: "Inter, sans-serif" }}
+        style={{ fontFamily: "Inter, Alexandria, sans-serif" }}
       >
         <LangProvider>
           {children}

@@ -17,7 +17,7 @@ export function measurePx(text: string): number {
     if (!_measureCanvas) _measureCanvas = document.createElement("canvas");
     const ctx = _measureCanvas.getContext("2d");
     if (!ctx) return text.length * 7;
-    ctx.font = "13px Cairo, system-ui, sans-serif";
+    ctx.font = "13px Alexandria, system-ui, sans-serif";
     return ctx.measureText(text).width;
   } catch { return text.length * 7; }
 }

@@ -275,7 +275,7 @@ export default function PolicyPage() {
         minHeight: "100vh",
         background: "#fafafa",
         padding: "48px 20px",
-        fontFamily: "'Inter','Cairo',sans-serif",
+        fontFamily: "'Inter','Alexandria',sans-serif",
       }}
     >
       <div style={{ maxWidth: 760, margin: "0 auto" }}>
